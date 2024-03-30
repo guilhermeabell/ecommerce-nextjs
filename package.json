@@ -10,6 +10,7 @@
     "test:ci": "jest --runInBand",
     "start": "next start",
     "lint": "next lint",
+    "lintstaged": "lint-staged",
     "prepare": "husky install"
   },
   "dependencies": {
