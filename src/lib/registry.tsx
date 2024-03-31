@@ -2,23 +2,29 @@
 
 import React, { useState } from 'react'
 import { useServerInsertedHTML } from 'next/navigation'
-import { StyleRegistry, createStyleRegistry } from 'styled-jsx'
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
 
-export default function StyledJsxRegistry({
+export default function StyledComponentsRegistry({
   children,
 }: {
   children: React.ReactNode
 }) {
-  // @see https://nextjs.org/docs/app/building-your-application/styling/css-in-js
+  // @see styled-components SSR setup: https://nextjs.org/docs/app/building-your-application/styling/css-in-js
   // Only create stylesheet once with lazy initial state
   // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
-  const [jsxStyleRegistry] = useState(() => createStyleRegistry())
+  const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet())
 
   useServerInsertedHTML(() => {
-    const styles = jsxStyleRegistry.styles()
-    jsxStyleRegistry.flush()
+    const styles = styledComponentsStyleSheet.getStyleElement()
+    styledComponentsStyleSheet.instance.clearTag()
     return <>{styles}</>
   })
 
-  return <StyleRegistry registry={jsxStyleRegistry}>{children}</StyleRegistry>
+  if (typeof window !== 'undefined') return <>{children}</>
+
+  return (
+    <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
+      {children}
+    </StyleSheetManager>
+  )
 }
