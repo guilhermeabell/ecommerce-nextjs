@@ -1,7 +1,9 @@
+import * as S from '@/components/Main/styles'
+
 export function Main() {
   return (
-    <div>
+    <S.Wrapper>
       <h2>React Boilerplate</h2>
-    </div>
+    </S.Wrapper>
   )
 }
