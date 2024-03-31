@@ -1,9 +1,9 @@
-import * as S from '@/components/Main/styles'
+import * as S from './styles'
 
 export function Main() {
   return (
     <S.Wrapper>
-      <h2>React Boilerplate</h2>
+      React Boilerplate
     </S.Wrapper>
   )
 }
